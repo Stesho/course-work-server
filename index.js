@@ -1,12 +1,21 @@
 import express from 'express';
+import cors from './middleware/corsMiddleware.js';
+import userRouter from "./routers/userRouter.js";
 
-const app = express()
-const port = 3000
+import './config/environment.js';
 
-app.get('/', (req, res) => {
-		res.send('Hello World!')
-})
+const PORT = process.env.PORT || 3002;
 
-app.listen(port, () => {
-		console.log(`Example app listening on port ${port}`)
-})
+const app = express();
+
+app.use(cors);
+app.use(express.json());
+
+app.use('/auth', userRouter);
+// app.use('/collection', productRouter);
+
+// app.get('/', (req, res) => {
+// 		res.send('Hello World!')
+// })
+
+app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
